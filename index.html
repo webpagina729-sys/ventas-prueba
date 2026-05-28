@@ -1511,11 +1511,12 @@
 
         .ribbon-content {
             max-width: 100%;
-            margin: 0 40px;
+            margin: 0 auto;
             display: flex;
             align-items: center;
-            justify-content: flex-end;
+            justify-content: center;
             gap: 12px;
+            padding: 0 40px;
         }
 
         .ribbon-option {
@@ -2154,19 +2155,21 @@
             justify-content: center;
             align-items: center;
             width: 100%;
-            margin: 20px 8px;
+            margin: 20px auto;
             padding: 0;
         }
         .portada-image {
-            width: calc(100% - 16px);
-            max-width: calc(100vw - 16px);
+            width: 90%;
+            max-width: 1200px;
             height: auto;
             border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0,0,0,.1);
+            display: block;
+            margin: 0 auto;
         }
         #portada-dos-section .portada-image {
-            width: calc(100% - 16px);
-            max-width: calc(100vw - 16px);
+            width: 90%;
+            max-width: 1200px;
         }
         #portada-dos-label {
             font-size: 12px;
@@ -2185,6 +2188,10 @@
             border-top: 3px solid #1B7F3D;
             position: relative;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
         .revend-section::before {
             content: '';
@@ -2198,10 +2205,22 @@
             pointer-events: none;
         }
         .revend-section-inner {
-            max-width: 100%;
-            margin: 0 40px;
+            max-width: 1200px;
+            width: 90%;
+            margin: 0 auto;
             position: relative;
             z-index: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .revend-section-inner img {
+            width: 100%;
+            height: auto;
+            max-width: 1200px;
+            margin: 0 auto 20px auto;
+            display: block;
         }
         .revend-title {
             font-family: var(--font-display);
@@ -2392,7 +2411,7 @@
     <div class="revend-section">
         <div class="revend-section-inner">
             <div style="display: flex; justify-content: center; align-items: center; width: 100%;">
-                <img src="https://raw.githubusercontent.com/webpagina729-sys/web-ventas/main/portadauno.png" alt="Portada Revende" class="portada-image" style="margin-bottom: 20px;">
+                <img src="portadauno.png" alt="Portada Revende" class="portada-image">
             </div>
             <button class="revend-btn" onclick="alert('Redirigiendo a formulario de registro... próximamente')">Quiero mi tienda</button>
         </div>
@@ -2804,16 +2823,17 @@
         // ═══════════════════════════════════════════════════════════════════════════
         // 🔧 INICIALIZAR FIREBASE INMEDIATAMENTE
         // ═══════════════════════════════════════════════════════════════════════════
-        // CRÍTICO: Esto DEBE ejecutarse AQUÍ, ANTES de cualquier código que use Firebase
+        // ✅ MOVIDO AL FINAL - Después de que Firebase se carga
+        /*
         if (!firebase.apps.length) {
             firebase.initializeApp(firebaseConfig);
             console.log('✅ Firebase inicializado CORRECTAMENTE en configuración');
         }
         
-        // Configurar persistencia de sesión
         firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
             .then(() => console.log('✅ Persistencia de sesión configurada'))
             .catch(err => console.error('❌ Error configurando persistencia:', err.message));
+        */
 
         // ═══════════════════════════════════════════════════════════════════════════
         // 🔧 CONFIGURACIÓN - MERCADO PAGO INTEGRATION
@@ -2824,10 +2844,11 @@
         const MP_ENDPOINT = '/api/mp/create-preference';
         const MIN_ORDER = 150000;
         
-        // DATOS DE PRODUCTOS (100 perfumes árabes)
+        // DATOS DE PRODUCTOS (256 perfumes árabes)
         const BASE_IMAGE_URL = 'https://raw.githubusercontent.com/webpagina729-sys/web-ventas/main/';
         
-        const products = [
+        // ✅ Hacer global para evitar problemas de scope
+        window.products = [
             { id: 1, nombre: "ARABE PERFUME YARA ROSA 35ML 1912-95 PERFUME", imagen: "yara.png", precio: 4250, precioOriginal: 8415, categoria: "femenino", caracteristicas: ["perfume árabe", "femenino", "buena duración", "aroma floral dulce", "formato 35ml"], info: "Perfume de inspiración árabe fragancia femenina con notas envolventes y elegantes, ideal para uso diario y ocasiones especiales.", momento: "día / primavera / salidas" },
             { id: 2, nombre: "ARABE CLUBE DE NUIT INTENSE MEN 35ML 1912-110 PERFUME", imagen: "clube.png", precio: 4250, precioOriginal: 8415, categoria: "masculino", caracteristicas: ["perfume árabe", "masculino", "larga duración", "aroma envolvente", "formato 35ml"], info: "Perfume de inspiración árabe fragancia masculina con presencia marcada y proyección, pensada para uso prolongado durante el día y la noche.", momento: "noche / eventos / invierno" },
             { id: 3, nombre: "ARABE ASAD LATTAFA NEGRO 30ML TY3001 PERFUME", imagen: "asad.png", precio: 11400, precioOriginal: 22572, categoria: "masculino", caracteristicas: ["perfume árabe", "masculino", "buena duración", "aroma envolvente", "formato 30ml"], info: "Perfume de inspiración árabe fragancia masculina con presencia marcada y proyección, pensada para uso prolongado durante el día y la noche.", momento: "noche / eventos / invierno" },
@@ -3086,12 +3107,21 @@
             { id: 256, nombre: "SET PERFUME BOYS POUR HOMME LD8006", imagen: "boys.png", precio: 33120, precioOriginal: 65578, categoria: "masculino", caracteristicas: ["perfume importado", "masculino", "buena duración", "aroma envolvente", "set / kit de perfumería", "presentación única"], info: "Fragancia masculina con presencia marcada y proyección, pensada para uso prolongado durante el día y la noche.", momento: "uso diario / salidas / todo el año" }
         ];
 
-        let cart = [];
-        let currentFilter = 'todos';
-        let currentSort = 'default';
-        let currentSearch = '';
-        let currentProduct = null;
-        let itemsDisplayed = 6;
+        // ✅ Variables GLOBALES para que no se pierdan
+        window.cart = [];
+        window.currentFilter = 'todos';
+        window.currentSort = 'default';
+        window.currentSearch = '';
+        window.currentProduct = null;
+        window.itemsDisplayed = 6;
+        
+        // ✅ Referencia corta para compatibilidad
+        let cart = window.cart;
+        let currentFilter = window.currentFilter;
+        let currentSort = window.currentSort;
+        let currentSearch = window.currentSearch;
+        let currentProduct = window.currentProduct;
+        let itemsDisplayed = window.itemsDisplayed;
 
         function filterProducts(categoria) {
             currentFilter = categoria;
@@ -3114,8 +3144,20 @@
         }
 
         function renderProducts() {
+            console.log('🎨 [RENDER] ========== INICIANDO renderProducts() ==========');
+            console.log('📦 [RENDER] products.length:', products?.length || 'UNDEFINED');
+            console.log('🎯 [RENDER] currentFilter:', currentFilter);
+            console.log('🔍 [RENDER] currentSearch:', currentSearch);
+            
             const grid = document.getElementById('products-grid');
+            console.log('🎯 [RENDER] Grid DOM encontrado?', !!grid);
+            if (!grid) {
+                console.error('❌ [RENDER] NO ENCONTRÉ EL GRID DOM!');
+                return;
+            }
+            
             let filtered = currentFilter === 'todos' ? products : products.filter(p => p.categoria === currentFilter);
+            console.log('📊 [RENDER] Productos después de filtro:', filtered?.length || 0);
             
             // Aplicar búsqueda
             if (currentSearch.trim() !== '') {
@@ -3832,6 +3874,13 @@
         }
 
         // INIT
+        console.log('═══════════════════════════════════════════════════════════════════════════');
+        console.log('🔍 [DIAGNÓSTICO] INICIALIZANDO...');
+        console.log('📦 [DIAGNÓSTICO] Total de productos en array:', products?.length || 0);
+        console.log('📦 [DIAGNÓSTICO] Array productos vacío?', products?.length === 0);
+        console.log('🎯 [DIAGNÓSTICO] Grid DOM existe?', !!document.getElementById('products-grid'));
+        console.log('═══════════════════════════════════════════════════════════════════════════');
+        
         setupSearch();
         renderProducts();
         handlePaymentReturn();
@@ -4152,61 +4201,88 @@
 
         // FUNCIONES PARA NUEVOS MODALES
 
-        function openProfileModal() {
+        async function openProfileModal() {
             const user = firebase.auth().currentUser;
             if (!user) {
                 console.error('No hay usuario autenticado');
                 return;
             }
 
-            console.log('📋 [Profile] Abriendo perfil para UID:', user.uid);
-            console.log('📋 [Profile] window.currentUser en memoria:', window.currentUser);
+            console.log('📋 [Profile] Usuario autenticado:', user.uid);
+            console.log('📋 [Profile] window.currentUser:', window.currentUser);
 
-            // Mostrar email de inmediato
+            // Mostrar email
             document.getElementById('profileEmail').textContent = user.email;
-            document.getElementById('profileName').textContent = 'Cargando...';
-            document.getElementById('profileCode').textContent = 'Cargando...';
 
-            // SIEMPRE cargar desde Firestore para garantizar datos actuales
-            firebase.firestore().collection('usuarios').doc(user.uid).get()
-                .then(doc => {
+            // PRIORIDAD ABSOLUTA: usar datos reconstruidos en sesión
+            if (
+                window.currentUser &&
+                window.currentUser.codigoVendedor &&
+                window.currentUser.codigoVendedor.trim() !== ''
+            ) {
+                document.getElementById('profileName').textContent =
+                    window.currentUser.nombre || user.email.split('@')[0];
+
+                document.getElementById('profileCode').textContent =
+                    window.currentUser.codigoVendedor;
+
+                console.log(
+                    '✅ [Profile] Código cargado desde window.currentUser:',
+                    window.currentUser.codigoVendedor
+                );
+
+            } else {
+                console.warn('⚠️ window.currentUser no tiene codigoVendedor');
+
+                // FALLBACK FIRESTORE
+                try {
+                    const doc = await firebase
+                        .firestore()
+                        .collection('usuarios')
+                        .doc(user.uid)
+                        .get();
+
                     if (doc.exists) {
                         const userData = doc.data();
+
                         console.log('📋 [Profile] Datos desde Firestore:', userData);
-                        console.log('📋 [Profile] codigoVendedor desde Firestore:', userData.codigoVendedor);
+
+                        document.getElementById('profileName').textContent =
+                            userData.nombre || user.email.split('@')[0];
+
+                        document.getElementById('profileCode').textContent =
+                            userData.codigoVendedor || 'Código no disponible';
+
+                        // reconstruir memoria global
+                        console.log('ANTES DE ASIGNAR currentUser [Profile Modal]:', JSON.parse(JSON.stringify(window.currentUser)));
                         
-                        // Cargar nombre
-                        const nombre = userData.nombre || user.email.split('@')[0];
-                        document.getElementById('profileName').textContent = nombre;
+                        window.currentUser = {
+                            uid: user.uid,
+                            email: user.email,
+                            ...userData
+                        };
                         
-                        // CRÍTICO: Cargar código de revendedor desde Firestore
-                        if (userData.codigoVendedor && userData.codigoVendedor.trim() !== '') {
-                            document.getElementById('profileCode').textContent = userData.codigoVendedor;
-                            console.log('✅ [Profile] Código cargado en UI:', userData.codigoVendedor);
-                        } else {
-                            document.getElementById('profileCode').textContent = 'Código no disponible';
-                            console.warn('⚠️ [Profile] El usuario no tiene código de revendedor');
-                        }
+                        console.log('DESPUÉS DE ASIGNAR currentUser [Profile Modal]:', JSON.parse(JSON.stringify(window.currentUser)));
+                        console.log('codigoVendedor final [Profile Modal]:', window.currentUser?.codigoVendedor);
+
                     } else {
-                        document.getElementById('profileName').textContent = user.email.split('@')[0];
-                        document.getElementById('profileCode').textContent = 'Código no disponible';
-                        console.warn('⚠️ [Profile] Usuario no encontrado en Firestore');
+                        document.getElementById('profileName').textContent =
+                            user.email.split('@')[0];
+
+                        document.getElementById('profileCode').textContent =
+                            'Código no disponible';
                     }
-                })
-                .catch(error => {
-                    if (error.code !== 'unavailable' && !error.message.includes('offline')) {
-                        console.warn('Error cargando perfil:', error.message);
-                    }
-                    // Mostrar datos del currentUser como fallback
-                    if (window.currentUser) {
-                        document.getElementById('profileName').textContent = window.currentUser.nombre || user.email.split('@')[0];
-                        document.getElementById('profileCode').textContent = window.currentUser.codigoVendedor || 'Código no disponible';
-                        console.log('📋 [Profile] Usando fallback window.currentUser.codigoVendedor:', window.currentUser.codigoVendedor);
-                    } else {
-                        document.getElementById('profileName').textContent = 'Error al cargar';
-                        document.getElementById('profileCode').textContent = 'Código no disponible';
-                    }
-                });
+
+                } catch (error) {
+                    console.error('❌ Error cargando perfil:', error);
+
+                    document.getElementById('profileName').textContent =
+                        user.email.split('@')[0];
+
+                    document.getElementById('profileCode').textContent =
+                        'Código no disponible';
+                }
+            }
 
             document.getElementById('profileModal').classList.add('active');
             preventBodyScroll(true);
@@ -4392,6 +4468,9 @@
             console.log('🔧 [Session] === INICIANDO initializeUserSession ===');
             console.log('🔧 [Session] authUser.uid:', authUser.uid);
             console.log('🔧 [Session] authUser.email:', authUser.email);
+            console.log('🔧 [Session] userData recibido:', userData);
+            console.log('⚠️⚠️⚠️ CRÍTICO - userData?.codigoVendedor QUE SE RECIBE:', userData?.codigoVendedor || '❌ NO ESTÁ EN userData');
+            
             // Si no hay datos de Firestore, crear objeto mínimo
             const safeUserData = userData || {
                 nombre: authUser.email.split('@')[0],
@@ -4400,13 +4479,10 @@
             };
 
             console.log('🔧 [Session] userData recibido de Firestore:', userData ? JSON.stringify(userData, null, 2) : 'NULL');
-            console.log('🔧 [Session] codigoVendedor en userData:', userData?.codigoVendedor || 'NO ENVIADO POR FIRESTORE');
-            console.log('🔧 [Session] safeUserData (lo que se asignará a currentUser):', JSON.stringify(safeUserData, null, 2));
-            console.log('🔧 [Session] codigoVendedor en safeUserData:', safeUserData?.codigoVendedor || 'ESTÁ VACÍO');
+            console.log('⚠️⚠️⚠️ CRÍTICO - codigoVendedor ANTES de asignar a window:', safeUserData?.codigoVendedor || '❌ VACÍO');
 
             // Guardar datos en variables globales para acceso rápido
             console.log('🔧 [Session] === ASIGNANDO window.currentUser ===');
-            console.log('ANTES DE ASIGNAR [initializeUserSession]:', JSON.parse(JSON.stringify(window.currentUser || {})));
             
             window.currentUser = {
                 uid: authUser.uid,
@@ -4416,12 +4492,12 @@
                 creado: safeUserData.creado || new Date()
             };
             
-            console.log('DESPUÉS DE ASIGNAR [initializeUserSession]:', JSON.parse(JSON.stringify(window.currentUser)));
-            console.log('🔧 [Session] ✅ window.currentUser.codigoVendedor FINAL:', window.currentUser?.codigoVendedor || 'VACÍO ⚠️');
+            console.log('⚠️⚠️⚠️ CRÍTICO - window.currentUser.codigoVendedor DESPUÉS de asignar:', window.currentUser?.codigoVendedor || '❌ SE PERDIÓ');
+            console.log('🔧 [Session] ✅ window.currentUser COMPLETO:', JSON.stringify(window.currentUser, null, 2));
             
             // Verificar inmediatamente que se asignó correctamente
             setTimeout(() => {
-                console.log('🔧 [Session] ✅ VERIFICACIÓN 100ms después:', {
+                console.log('✅ VERIFICACIÓN 100ms después:', {
                     codigoVendedor: window.currentUser?.codigoVendedor,
                     fullUser: JSON.parse(JSON.stringify(window.currentUser || {}))
                 });
@@ -4485,6 +4561,19 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
     
     <script>
+        // ✅ INICIALIZAR FIREBASE - Ahora sí está disponible
+        console.log('🔧 [Firebase] Inicializando Firebase...');
+        if (!firebase.apps.length) {
+            // firebaseConfig debe estar disponible del script anterior
+            firebase.initializeApp(firebaseConfig);
+            console.log('✅ Firebase inicializado CORRECTAMENTE');
+        }
+        
+        // Configurar persistencia de sesión
+        firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+            .then(() => console.log('✅ Persistencia de sesión configurada'))
+            .catch(err => console.error('❌ Error configurando persistencia:', err.message));
+        
         // SISTEMA DE REINTENTOS PARA FIRESTORE
         async function loadUserDataFromFirestoreWithRetry(uid, maxRetries = 3, delayMs = 500) {
             console.log('🔍 [Firestore] Intentando cargar usuario con UID:', uid);
