@@ -1511,10 +1511,11 @@
 
         .ribbon-content {
             max-width: 100%;
-            margin: 0 40px;
+            margin: 0 auto;
+            padding: 0 40px;
             display: flex;
             align-items: center;
-            justify-content: flex-end;
+            justify-content: center;
             gap: 12px;
         }
 
@@ -1995,7 +1996,7 @@
             .revend-section-inner img { max-width: 100%; height: auto; margin-bottom: 8px !important; }
             .revend-title { font-size: 13px; }
             .revend-subtitle { font-size: 13px; margin-bottom: 16px; }
-            .revend-btn { font-size: 11px; padding: 10px 6px; letter-spacing: 0px; line-height: 1.2; white-space: nowrap; text-align: center; }
+            .revend-btn { font-size: 12px; padding: 10px 16px; letter-spacing: 0px; line-height: 1.2; white-space: nowrap; text-align: center; }\n            .nicho-footer { flex-direction: column; gap: 12px; }\n            .nicho-badge { min-width: auto; width: 100%; }\n            .nicho-button { width: 100%; }\n            .carrusel-container { height: 100px; }\n            .revend-section-inner { gap: 16px; }
             .final-footer { padding: 30px 8px; }
             .final-footer-inner { margin: 0 8px; }
             .final-footer-title { line-height: 1.3; font-size: 11px; word-break: break-word; text-align: left !important; max-width: 340px; }
@@ -2237,27 +2238,28 @@
             line-height: 1.6;
         }
         .revend-btn {
-            background: white;
-            color: #1B7F3D;
+            background: var(--primary);
+            color: white;
             border: none;
-            padding: 18px 52px;
-            font-size: 17px;
-            font-weight: 700;
-            border-radius: var(--radius);
+            padding: 12px 32px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 6px;
             cursor: pointer;
-            transition: all .3s ease;
+            transition: all 0.2s ease;
             font-family: var(--font-body);
-            box-shadow: 0 8px 24px rgba(0,0,0,.25);
-            letter-spacing: 0.3px;
+            white-space: nowrap;
             display: inline-block;
         }
         .revend-btn:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 32px rgba(0,0,0,.35);
-            background: #f5f5f5;
+            background: var(--primary-light);
+            transform: scale(0.98);
         }
         .revend-btn:active {
-            transform: translateY(-1px);
+            transform: scale(0.96);
+        }
+        .revend-btn.hidden-btn {
+            display: none;
         }
 
         /* FINAL FOOTER */
@@ -2342,102 +2344,34 @@
         }
         .nichos-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: 1fr;
             gap: 40px;
             margin-bottom: 40px;
         }
-        @media (max-width: 768px) {
-            .nichos-grid {
-                grid-template-columns: 1fr;
-                gap: 24px;
-            }
+        .nicho-item {
+            margin-bottom: 40px;
         }
-        .nicho-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 32px 24px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: var(--shadow);
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            min-height: 380px;
-        }
-        .nicho-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary), #0052cc);
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.3s ease;
-        }
-        .nicho-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-lg);
-            border-color: var(--primary);
-        }
-        .nicho-card:hover::before {
-            transform: scaleX(1);
-        }
-        .nicho-icon {
-            font-size: 48px;
-            margin-bottom: 16px;
-            display: block;
+        .nicho-info {
+            margin-bottom: 24px;
         }
         .nicho-title {
-            font-size: 20px;
+            font-size: 24px;
             font-weight: 700;
             color: var(--text);
             margin-bottom: 12px;
         }
         .nicho-subtitle {
-            font-size: 14px;
+            font-size: 15px;
             color: var(--text-light);
-            margin-bottom: 24px;
+            margin-bottom: 8px;
             line-height: 1.5;
-        }
-        .nicho-badge {
-            display: block;
-            background: var(--primary);
-            color: white;
-            padding: 12px 16px;
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        .nicho-button {
-            width: 100%;
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 14px 20px;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            margin-top: auto;
-        }
-        .nicho-button:hover {
-            background: var(--primary-light);
-            transform: scale(0.98);
         }
         /* CARRUSEL */
         .carrusel-container {
             position: relative;
             width: 100%;
-            height: 200px;
-            margin-bottom: 20px;
+            height: 120px;
+            margin-bottom: 24px;
             border-radius: 8px;
             overflow: hidden;
             background: var(--gray-light);
@@ -2467,11 +2401,11 @@
             background: rgba(0, 102, 255, 0.8);
             color: white;
             border: none;
-            width: 36px;
-            height: 36px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             cursor: pointer;
-            font-size: 18px;
+            font-size: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -2493,12 +2427,12 @@
             left: 50%;
             transform: translateX(-50%);
             display: flex;
-            gap: 6px;
+            gap: 4px;
             z-index: 10;
         }
         .carrusel-dot {
-            width: 8px;
-            height: 8px;
+            width: 6px;
+            height: 6px;
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.5);
             cursor: pointer;
@@ -2507,8 +2441,46 @@
         }
         .carrusel-dot.active {
             background: white;
-            width: 24px;
-            border-radius: 4px;
+            width: 20px;
+            border-radius: 3px;
+        }
+        /* BADGE Y BOTÓN CONTAINER */
+        .nicho-footer {
+            display: flex;
+            gap: 16px;
+            align-items: stretch;
+        }
+        .nicho-badge {
+            flex: 0 0 auto;
+            background: var(--primary);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 200px;
+            white-space: nowrap;
+        }
+        .nicho-button {
+            flex: 1;
+            background: #22a34a;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .nicho-button:hover {
+            background: #1a8539;
+            transform: scale(0.98);
         }
 
         /* MODAL: VALIDACIÓN CÓDIGO */
@@ -2727,37 +2699,39 @@
     <section class="nichos-section" id="nichos-section">
         <div class="nichos-section-inner">
             <h2 class="nichos-title">Elegí tu nicho ideal</h2>
-            <div class="nichos-grid">
-                <!-- TARJETA 1: PERFUMES ÁRABES CON CARRUSEL -->
-                <div class="nicho-card">
-                    <div>
-                        <h3 class="nicho-title">Perfumes árabes</h3>
-                        <p class="nicho-subtitle">Fragancias premium de inspiración árabe para tu catálogo</p>
-                        
-                        <!-- CARRUSEL -->
-                        <div class="carrusel-container" id="carrusel-container">
-                            <div class="carrusel-wrapper" id="carrusel-wrapper">
-                                <!-- Los slides se generan con JavaScript -->
-                            </div>
-                            <button class="carrusel-nav carrusel-prev" onclick="carruselAnterior()">❮</button>
-                            <button class="carrusel-nav carrusel-next" onclick="carruselSiguiente()">❯</button>
-                            <div class="carrusel-dots" id="carrusel-dots"></div>
-                        </div>
-                        
-                        <div class="nicho-badge">💰 Monto mínimo: $150.000</div>
-                    </div>
+            
+            <!-- NICHO 1: PERFUMES ÁRABES -->
+            <div class="nicho-item">
+                <div class="nicho-info">
+                    <h3 class="nicho-title">Perfumes árabes</h3>
+                    <p class="nicho-subtitle">Fragancias premium de inspiración árabe para tu catálogo</p>
+                </div>
+                
+                <!-- CARRUSEL ANCHO -->
+                <div class="carrusel-container" id="carrusel-container">
+                    <div class="carrusel-wrapper" id="carrusel-wrapper"></div>
+                    <button class="carrusel-nav carrusel-prev" onclick="carruselAnterior()">❮</button>
+                    <button class="carrusel-nav carrusel-next" onclick="carruselSiguiente()">❯</button>
+                    <div class="carrusel-dots" id="carrusel-dots"></div>
+                </div>
+                
+                <!-- BADGE + BOTÓN -->
+                <div class="nicho-footer">
+                    <div class="nicho-badge">💰 Monto mínimo: $150.000</div>
                     <button class="nicho-button" onclick="abrirModalCodigo()">Comenzar próximo pedido en este nicho</button>
                 </div>
+            </div>
 
-                <!-- TARJETA 2: OTROS NICHOS (Bazar, Perfumería, Belleza, Herramientas) -->
-                <div class="nicho-card">
-                    <div>
-                        <h3 class="nicho-title">Otros nichos</h3>
-                        <p class="nicho-subtitle">Bazar • Perfumería • Belleza • Herramientas</p>
-                        <p class="nicho-subtitle" style="font-size: 13px; margin-top: 16px;">Accede a múltiples categorías de productos en una sola opción. Expande tu catálogo con variedad.</p>
-                        
-                        <div class="nicho-badge">💰 Monto mínimo: $200.000</div>
-                    </div>
+            <!-- NICHO 2: OTROS NICHOS -->
+            <div class="nicho-item">
+                <div class="nicho-info">
+                    <h3 class="nicho-title">Otros nichos</h3>
+                    <p class="nicho-subtitle">Bazar • Perfumería • Belleza • Herramientas. Accede a múltiples categorías de productos en una sola opción. Expande tu catálogo con variedad.</p>
+                </div>
+                
+                <!-- BADGE + BOTÓN -->
+                <div class="nicho-footer">
+                    <div class="nicho-badge">💰 Monto mínimo: $200.000</div>
                     <button class="nicho-button" onclick="abrirModalProximamente('Otros nichos')">Comenzar próximo pedido en este nicho</button>
                 </div>
             </div>
@@ -2819,12 +2793,12 @@
     </div>
 
     <!-- REVEND SECTION -->
-    <div class="revend-section">
+    <div class="revend-section" id="revend-section-container">
         <div class="revend-section-inner">
-            <div style="display: flex; justify-content: center; align-items: center; width: 100%;">
+            <div style="display: flex; justify-content: center; align-items: center;">
                 <img src="portadauno.png" alt="Portada Revende" class="portada-image">
             </div>
-            <button class="revend-btn" onclick="alert('Redirigiendo a formulario de registro... próximamente')">Quiero mi tienda</button>
+            <button class="revend-btn" id="revend-btn-main" onclick="handleRevendClick()">Quiero mi tienda</button>
         </div>
     </div>
 
@@ -3111,6 +3085,29 @@
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; margin-top: 20px;">
                 <button type="button" class="confirmation-button" style="background: #f5f5f5; color: var(--text);" onclick="closeProfileModal()">Cerrar</button>
                 <button type="button" class="confirmation-button confirmation-button-primary" onclick="logoutUser()">Cerrar sesión</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL CONFIRMACIÓN DE EMAIL -->
+    <div class="modal-overlay" id="emailConfirmationModal" onclick="closeEmailConfirmationModal(event)">
+        <div class="modal-content" style="max-width: 500px;">
+            <div class="modal-header">
+                <h2 class="modal-title">Importante</h2>
+                <button class="modal-close" onclick="closeEmailConfirmationModal()">×</button>
+            </div>
+
+            <div style="text-align: center; padding: 20px 0;">
+                <div style="font-size: 48px; color: #22a34a; margin-bottom: 20px;">✓</div>
+                <h3 style="color: var(--text); font-size: 18px; margin-bottom: 10px; font-weight: 600;">Confirma tu correo electrónico</h3>
+                <p style="color: #666; font-size: 14px; line-height: 1.5; margin-bottom: 20px;">
+                    Para completar tu registro y acceder a todas las funcionalidades, necesitamos que confirmes tu correo electrónico.
+                </p>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr; gap: 10px; width: 100%;">
+                <button type="button" class="confirmation-button confirmation-button-primary" onclick="confirmEmailPrompt()">Confirmar correo electrónico</button>
+                <button type="button" class="confirmation-button" style="background: #f5f5f5; color: var(--text);" onclick="closeEmailConfirmationModal()">Más tarde</button>
             </div>
         </div>
     </div>
@@ -4391,6 +4388,9 @@
                         .catch(err => console.warn('❌ [Register] Firestore Error: ' + err.message));
                 }
 
+                // Guardar código en localStorage como fallback
+                localStorage.setItem('codigoVendedorLocal', codigoVendedor);
+                
                 // Mostrar modal de confirmación con el código vendedor
                 showRegistrationConfirmation(codigoVendedor, nombre);
                 
@@ -4563,17 +4563,22 @@
         }
         
         function copyCodigoVendedor() {
-            // Copiar el código que se ve actualmente en el perfil (desde Firestore)
-            const codigoElement = document.getElementById('profileCode');
-            const codigo = codigoElement ? codigoElement.textContent : '';
+            // Copiar el código directamente desde window.currentUser
+            let codigo = window.currentUser?.codigoVendedor || '';
             
-            // No copiar si dice "no disponible"
-            if (!codigo || codigo === 'Código no disponible' || codigo === 'Cargando...') {
+            // Si no está disponible, intentar desde localStorage (fallback)
+            if (!codigo) {
+                codigo = localStorage.getItem('codigoVendedorLocal') || '';
+            }
+            
+            // No copiar si está vacío
+            if (!codigo || codigo.trim() === '') {
                 console.warn('Código no disponible para copiar');
+                alert('Tu código de revendedor aún no está disponible. Por favor intenta más tarde.');
                 return;
             }
             
-            const btn = event.target;
+            const btn = event.target.closest('button');
             
             navigator.clipboard.writeText(codigo).then(() => {
                 // Mostrar feedback
@@ -4588,11 +4593,28 @@
                         feedback.classList.remove('show');
                     }, 2000);
                 }
+                console.log('✅ Código de revendedor copiado:', codigo);
             }).catch(err => {
                 console.error('Error al copiar código:', err);
+                alert('No se pudo copiar el código. Intenta de nuevo.');
             });
         }
         
+        function closeEmailConfirmationModal(e) {
+            if (e && e.target.id !== 'emailConfirmationModal') return;
+            const modal = document.getElementById('emailConfirmationModal');
+            if (modal) {
+                modal.classList.remove('active');
+                preventBodyScroll(false);
+            }
+        }
+
+        function confirmEmailPrompt() {
+            // Mostrar mensaje de próximamente
+            alert('Integración con Brevo próximamente. Por el momento, tu correo ha sido registrado exitosamente.');
+            closeEmailConfirmationModal();
+        }
+
         function notifyWhatsApp() {
             const codigo = window.currentCodigoVendedor;
             const nombre = window.currentUserName || 'Usuario';
@@ -4625,15 +4647,16 @@
             // Mostrar email
             document.getElementById('profileEmail').textContent = user.email;
 
+            // Mostrar nombre
+            document.getElementById('profileName').textContent = 
+                window.currentUser?.nombre || user.email.split('@')[0];
+
             // PRIORIDAD ABSOLUTA: usar datos reconstruidos en sesión
             if (
                 window.currentUser &&
                 window.currentUser.codigoVendedor &&
                 window.currentUser.codigoVendedor.trim() !== ''
             ) {
-                document.getElementById('profileName').textContent =
-                    window.currentUser.nombre || user.email.split('@')[0];
-
                 document.getElementById('profileCode').textContent =
                     window.currentUser.codigoVendedor;
 
@@ -4662,7 +4685,7 @@
                             userData.nombre || user.email.split('@')[0];
 
                         document.getElementById('profileCode').textContent =
-                            userData.codigoVendedor || 'Código no disponible';
+                            userData.codigoVendedor || localStorage.getItem('codigoVendedorLocal') || 'Código no disponible';
 
                         // reconstruir memoria global
                         console.log('ANTES DE ASIGNAR currentUser [Profile Modal]:', JSON.parse(JSON.stringify(window.currentUser)));
@@ -4681,7 +4704,7 @@
                             user.email.split('@')[0];
 
                         document.getElementById('profileCode').textContent =
-                            'Código no disponible';
+                            localStorage.getItem('codigoVendedorLocal') || 'Código no disponible';
                     }
 
                 } catch (error) {
@@ -4691,7 +4714,7 @@
                         user.email.split('@')[0];
 
                     document.getElementById('profileCode').textContent =
-                        'Código no disponible';
+                        localStorage.getItem('codigoVendedorLocal') || 'Código no disponible';
                 }
             }
 
@@ -4924,6 +4947,18 @@
 
             // Actualizar interfaz
             updateUIForAuthentication(true);
+            
+            // Mostrar modal de confirmación de email después de 5 segundos
+            setTimeout(() => {
+                if (firebase.auth().currentUser) {
+                    const modal = document.getElementById('emailConfirmationModal');
+                    if (modal && !modal.classList.contains('active')) {
+                        modal.classList.add('active');
+                        preventBodyScroll(true);
+                        console.log('📧 [Session] Modal de confirmación de email mostrado');
+                    }
+                }
+            }, 5000);
             
             // ⚠️ VERIFICACIÓN CRÍTICA: Si codigoVendedor está vacío, intentar cargar de nuevo
             if (!window.currentUser?.codigoVendedor || window.currentUser.codigoVendedor === '') {
@@ -5282,6 +5317,35 @@
             updateCartCount();
         }
 
+        // Manejar click del botón "Quiero mi tienda" / "Recibir ideas"
+        function handleRevendClick() {
+            if (window.currentUser) {
+                // Usuario logueado: abrir formulario para recibir combos
+                alert('Gracias por tu interés. Pronto recibirás ideas de combos y promociones.');
+            } else {
+                // Usuario no logueado: ir a registro
+                alert('Redirigiendo a formulario de registro... próximamente');
+            }
+        }
+
+        // Actualizar botón "Quiero mi tienda" según estado de login
+        function actualizarBotonesRevend() {
+            const revendBtn = document.getElementById('revend-btn-main');
+            const revendSection = document.getElementById('revend-section-container');
+            
+            if (!revendBtn || !revendSection) return;
+            
+            if (window.currentUser) {
+                // Usuario logueado: cambiar texto y estilo
+                revendBtn.textContent = 'Recibir ideas de combos y promociones';
+                revendSection.style.display = 'block';
+            } else {
+                // Usuario no logueado: mostrar texto original
+                revendBtn.textContent = 'Quiero mi tienda';
+                revendSection.style.display = 'block';
+            }
+        }
+
         // Ocultar catálogo y mostrar nichos
         function ocultarCatalogo() {
             const nichosSection = document.getElementById('nichos-section');
@@ -5323,6 +5387,7 @@
             // Esperar a que Firebase esté listo
             setTimeout(() => {
                 actualizarVistaNichos();
+                actualizarBotonesRevend();
             }, 500);
         });
 
@@ -5332,6 +5397,7 @@
         window.initializeUserSession = function(userData, user) {
             originalInitializeUserSession(userData, user);
             actualizarVistaNichos();
+            actualizarBotonesRevend();
         };
 
         // Interceptar logoutUser
@@ -5342,6 +5408,7 @@
             localStorage.removeItem('codigoRevendedorValidado');
             localStorage.removeItem('codigoRevendedorValidadoFecha');
             ocultarCatalogo();
+            actualizarBotonesRevend();
         };
 
         // Limpiar código validado si expira (30 días)
