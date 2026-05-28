@@ -2332,30 +2332,40 @@
             padding: 0 40px;
         }
         .nichos-title {
-            font-size: 32px;
+            font-size: 28px;
             font-weight: 700;
             color: var(--text);
             text-align: center;
             margin-bottom: 48px;
             font-family: var(--font-display);
+            white-space: nowrap;
         }
         .nichos-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 32px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
             margin-bottom: 40px;
+        }
+        @media (max-width: 768px) {
+            .nichos-grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
         }
         .nicho-card {
             background: var(--surface);
             border: 1px solid var(--border);
             border-radius: 12px;
             padding: 32px 24px;
-            text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: var(--shadow);
             position: relative;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 380px;
         }
         .nicho-card::before {
             content: '';
@@ -2370,7 +2380,7 @@
             transition: transform 0.3s ease;
         }
         .nicho-card:hover {
-            transform: translateY(-8px);
+            transform: translateY(-4px);
             box-shadow: var(--shadow-lg);
             border-color: var(--primary);
         }
@@ -2395,14 +2405,110 @@
             line-height: 1.5;
         }
         .nicho-badge {
-            display: inline-block;
-            background: var(--gray-light);
-            color: var(--text);
-            padding: 8px 16px;
+            display: block;
+            background: var(--primary);
+            color: white;
+            padding: 12px 16px;
             border-radius: 6px;
-            font-size: 12px;
+            font-size: 13px;
             font-weight: 600;
             margin-bottom: 20px;
+            text-align: center;
+        }
+        .nicho-button {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: auto;
+        }
+        .nicho-button:hover {
+            background: var(--primary-light);
+            transform: scale(0.98);
+        }
+        /* CARRUSEL */
+        .carrusel-container {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+            background: var(--gray-light);
+        }
+        .carrusel-wrapper {
+            display: flex;
+            height: 100%;
+            transition: transform 0.5s ease;
+        }
+        .carrusel-slide {
+            min-width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .carrusel-slide img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+        }
+        .carrusel-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 102, 255, 0.8);
+            color: white;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            z-index: 10;
+        }
+        .carrusel-nav:hover {
+            background: var(--primary);
+        }
+        .carrusel-prev {
+            left: 8px;
+        }
+        .carrusel-next {
+            right: 8px;
+        }
+        .carrusel-dots {
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 6px;
+            z-index: 10;
+        }
+        .carrusel-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+        }
+        .carrusel-dot.active {
+            background: white;
+            width: 24px;
+            border-radius: 4px;
         }
 
         /* MODAL: VALIDACIÓN CÓDIGO */
@@ -2622,44 +2728,37 @@
         <div class="nichos-section-inner">
             <h2 class="nichos-title">Elegí tu nicho ideal</h2>
             <div class="nichos-grid">
-                <!-- TARJETA 1: PERFUMES ÁRABES -->
-                <div class="nicho-card" onclick="abrirModalCodigo()">
-                    <span class="nicho-icon">🌹</span>
-                    <h3 class="nicho-title">Perfumes árabes</h3>
-                    <p class="nicho-subtitle">Fragancias premium de inspiración árabe para tu catálogo</p>
-                    <div class="nicho-badge">💰 Monto mínimo: $150.000</div>
+                <!-- TARJETA 1: PERFUMES ÁRABES CON CARRUSEL -->
+                <div class="nicho-card">
+                    <div>
+                        <h3 class="nicho-title">Perfumes árabes</h3>
+                        <p class="nicho-subtitle">Fragancias premium de inspiración árabe para tu catálogo</p>
+                        
+                        <!-- CARRUSEL -->
+                        <div class="carrusel-container" id="carrusel-container">
+                            <div class="carrusel-wrapper" id="carrusel-wrapper">
+                                <!-- Los slides se generan con JavaScript -->
+                            </div>
+                            <button class="carrusel-nav carrusel-prev" onclick="carruselAnterior()">❮</button>
+                            <button class="carrusel-nav carrusel-next" onclick="carruselSiguiente()">❯</button>
+                            <div class="carrusel-dots" id="carrusel-dots"></div>
+                        </div>
+                        
+                        <div class="nicho-badge">💰 Monto mínimo: $150.000</div>
+                    </div>
+                    <button class="nicho-button" onclick="abrirModalCodigo()">Comenzar próximo pedido en este nicho</button>
                 </div>
 
-                <!-- TARJETA 2: BAZAR -->
-                <div class="nicho-card" onclick="abrirModalProximamente('Bazar')">
-                    <span class="nicho-icon">🏠</span>
-                    <h3 class="nicho-title">Bazar</h3>
-                    <p class="nicho-subtitle">Productos para el hogar y decoración</p>
-                    <div class="nicho-badge">💰 Monto mínimo: $200.000</div>
-                </div>
-
-                <!-- TARJETA 3: PERFUMERÍA -->
-                <div class="nicho-card" onclick="abrirModalProximamente('Perfumería')">
-                    <span class="nicho-icon">💧</span>
-                    <h3 class="nicho-title">Perfumería</h3>
-                    <p class="nicho-subtitle">Perfumes y fragancias para todos los gustos</p>
-                    <div class="nicho-badge">💰 Monto mínimo: $200.000</div>
-                </div>
-
-                <!-- TARJETA 4: BELLEZA -->
-                <div class="nicho-card" onclick="abrirModalProximamente('Belleza')">
-                    <span class="nicho-icon">✨</span>
-                    <h3 class="nicho-title">Belleza</h3>
-                    <p class="nicho-subtitle">Cosméticos y productos de cuidado personal</p>
-                    <div class="nicho-badge">💰 Monto mínimo: $200.000</div>
-                </div>
-
-                <!-- TARJETA 5: HERRAMIENTAS -->
-                <div class="nicho-card" onclick="abrirModalProximamente('Herramientas')">
-                    <span class="nicho-icon">🔧</span>
-                    <h3 class="nicho-title">Herramientas</h3>
-                    <p class="nicho-subtitle">Herramientas y equipos para profesionales</p>
-                    <div class="nicho-badge">💰 Monto mínimo: $200.000</div>
+                <!-- TARJETA 2: OTROS NICHOS (Bazar, Perfumería, Belleza, Herramientas) -->
+                <div class="nicho-card">
+                    <div>
+                        <h3 class="nicho-title">Otros nichos</h3>
+                        <p class="nicho-subtitle">Bazar • Perfumería • Belleza • Herramientas</p>
+                        <p class="nicho-subtitle" style="font-size: 13px; margin-top: 16px;">Accede a múltiples categorías de productos en una sola opción. Expande tu catálogo con variedad.</p>
+                        
+                        <div class="nicho-badge">💰 Monto mínimo: $200.000</div>
+                    </div>
+                    <button class="nicho-button" onclick="abrirModalProximamente('Otros nichos')">Comenzar próximo pedido en este nicho</button>
                 </div>
             </div>
         </div>
@@ -4982,6 +5081,73 @@
     <script>
         // Variables globales para nichos
         window.codigoValidado = false;
+        let carruselActual = 0;
+        let productosCarrusel = [];
+
+        // INICIALIZAR CARRUSEL CON IMÁGENES DE PRODUCTOS
+        function inicializarCarrusel() {
+            // Tomar primeros 8 productos árabes del catálogo
+            const productosArabes = window.products.filter(p => p.categoria && p.imagen).slice(0, 8);
+            productosCarrusel = productosArabes;
+
+            if (productosCarrusel.length === 0) return;
+
+            const wrapper = document.getElementById('carrusel-wrapper');
+            const dotsContainer = document.getElementById('carrusel-dots');
+
+            if (!wrapper || !dotsContainer) return;
+
+            // Limpiar
+            wrapper.innerHTML = '';
+            dotsContainer.innerHTML = '';
+
+            // Generar slides
+            productosCarrusel.forEach((producto, index) => {
+                const slide = document.createElement('div');
+                slide.className = 'carrusel-slide';
+                slide.innerHTML = `<img src="${producto.imagen}" alt="${producto.nombre}" onerror="this.src='portadauno.png'">`;
+                wrapper.appendChild(slide);
+
+                // Generar dots
+                const dot = document.createElement('button');
+                dot.className = `carrusel-dot ${index === 0 ? 'active' : ''}`;
+                dot.onclick = () => irASlide(index);
+                dotsContainer.appendChild(dot);
+            });
+
+            carruselActual = 0;
+            actualizarCarrusel();
+        }
+
+        function actualizarCarrusel() {
+            const wrapper = document.getElementById('carrusel-wrapper');
+            if (wrapper) {
+                const offset = carruselActual * -100;
+                wrapper.style.transform = `translateX(${offset}%)`;
+            }
+
+            // Actualizar dots
+            document.querySelectorAll('.carrusel-dot').forEach((dot, index) => {
+                dot.classList.toggle('active', index === carruselActual);
+            });
+        }
+
+        function carruselAnterior() {
+            if (productosCarrusel.length === 0) return;
+            carruselActual = (carruselActual - 1 + productosCarrusel.length) % productosCarrusel.length;
+            actualizarCarrusel();
+        }
+
+        function carruselSiguiente() {
+            if (productosCarrusel.length === 0) return;
+            carruselActual = (carruselActual + 1) % productosCarrusel.length;
+            actualizarCarrusel();
+        }
+
+        function irASlide(index) {
+            carruselActual = index;
+            actualizarCarrusel();
+        }
 
         // Verificar si ya está logueado y mostrar sección de nichos
         function actualizarVistaNichos() {
@@ -4992,6 +5158,9 @@
                 if (nichosSection) {
                     nichosSection.classList.add('show');
                 }
+                
+                // Inicializar carrusel
+                setTimeout(inicializarCarrusel, 100);
                 
                 // Verificar si ya validó el código (localStorage)
                 const codigoEnSesion = localStorage.getItem('codigoRevendedorValidado');
