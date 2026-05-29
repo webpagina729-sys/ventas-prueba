@@ -2205,8 +2205,8 @@
             pointer-events: none;
         }
         .revend-section-inner {
-            max-width: 1200px;
-            width: 90%;
+            max-width: 100%;
+            width: 100%;
             margin: 0 auto;
             position: relative;
             z-index: 1;
@@ -2214,11 +2214,12 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            padding: 0;
         }
         .revend-section-inner img {
             width: 100%;
             height: auto;
-            max-width: 1200px;
+            max-width: none;
             margin: 0 auto 20px auto;
             display: block;
         }
@@ -2436,28 +2437,33 @@
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            background: rgba(0, 102, 255, 0.8);
-            color: white;
-            border: none;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
+            background: none !important;
+            color: #666 !important;
+            border: none !important;
+            width: auto !important;
+            height: auto !important;
+            padding: 2px 4px !important;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 20px !important;
+            font-weight: 300;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: all 0.2s;
             z-index: 10;
+            box-shadow: none !important;
+            outline: none !important;
+            text-shadow: none !important;
         }
         .carrusel-nav:hover {
-            background: var(--primary);
+            color: #333 !important;
+            background: none !important;
         }
         .carrusel-prev {
-            left: 8px;
+            left: 12px;
         }
         .carrusel-next {
-            right: 8px;
+            right: 12px;
         }
         .carrusel-dots {
             position: absolute;
@@ -2750,8 +2756,8 @@
                 <!-- CARRUSEL ANCHO -->
                 <div class="carrusel-container" id="carrusel-container">
                     <div class="carrusel-wrapper" id="carrusel-wrapper"></div>
-                    <button class="carrusel-nav carrusel-prev" onclick="carruselAnterior()">‹</button>
-                    <button class="carrusel-nav carrusel-next" onclick="carruselSiguiente()">›</button>
+                    <button class="carrusel-nav carrusel-prev" onclick="carruselAnterior()" title="Anterior">‹</button>
+                    <button class="carrusel-nav carrusel-next" onclick="carruselSiguiente()" title="Siguiente">›</button>
                     <div class="carrusel-dots" id="carrusel-dots"></div>
                 </div>
                 
@@ -2762,17 +2768,17 @@
                 </div>
             </div>
 
-            <!-- NICHO 2: OTROS NICHOS -->
+            <!-- NICHO 2: DE TODO -->
             <div class="nicho-item">
                 <div class="nicho-info">
-                    <h3 class="nicho-title">Otros nichos</h3>
+                    <h3 class="nicho-title">De Todo</h3>
                     <p class="nicho-subtitle">Bazar • Perfumería • Belleza • Herramientas. Accede a múltiples categorías de productos en una sola opción. Expande tu catálogo con variedad.</p>
                 </div>
                 
                 <!-- BADGE + BOTÓN -->
                 <div class="nicho-footer">
                     <div class="nicho-badge">💰 Monto mínimo: $200.000</div>
-                    <button class="nicho-button" onclick="abrirModalProximamente('Otros nichos')">Comenzar próximo pedido en este nicho</button>
+                    <button class="nicho-button" onclick="abrirModalProximamente('De Todo')">Comenzar próximo pedido en este nicho</button>
                 </div>
             </div>
 
@@ -2850,7 +2856,7 @@
     <div class="revend-section" id="revend-section-container">
         <div class="revend-section-inner">
             <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 30px; margin-top: 10px;">
-                <img src="portadauno.png" alt="Portada Revende" class="portada-image" style="width: 90%; max-width: 100%;">
+                <img src="portadauno.png" alt="Portada Revende" class="portada-image" style="width: 100%; max-width: 100%;">
             </div>
             <div style="text-align: center; font-size: 16px; font-weight: 600; color: white; margin-bottom: 20px;">Recibir todas las semanas ideas para vender más</div>
             <button class="revend-btn" id="revend-btn-main" onclick="handleRevendClick()" style="margin-bottom: 30px;">Quiero mi tienda</button>
@@ -4667,8 +4673,8 @@
         function confirmEmailPrompt() {
             // Marcar email como confirmado
             localStorage.setItem('emailConfirmado', 'true');
-            // Abrir el formulario de confirmación
-            window.open('https://confirmaciondecorreo.tuweb.workers.dev/', '_blank');
+            // Abrir el formulario de Brevo
+            window.open('https://8cc1455f.sibforms.com/serve/MUIFAOe2caIUk_JszJEAGAXuWMAooq9jBLGOvdN8R2ecTP9XnIzhvmcJIr6sHXcB-ap4DPs38CfVHsbJyu1Nc6djziTbM7FfS-bGHzYXXhYj1V_wcohxKLoFy4sbfPH_xNmDgwVR4xVaaf4dyK_QlVjLzdj4E012J39XFQGdXYOvmNEzae4U9jt0_pRuCZHcElDfRt6XW7T4QwrXbA==', '_blank');
             closeEmailConfirmationModal();
         }
 
@@ -4708,70 +4714,55 @@
             document.getElementById('profileName').textContent = 
                 window.currentUser?.nombre || user.email.split('@')[0];
 
-            // PRIORIDAD ABSOLUTA: usar datos reconstruidos en sesión
-            if (
-                window.currentUser &&
-                window.currentUser.codigoVendedor &&
-                window.currentUser.codigoVendedor.trim() !== ''
-            ) {
-                document.getElementById('profileCode').textContent =
-                    window.currentUser.codigoVendedor;
-
-                console.log(
-                    '✅ [Profile] Código cargado desde window.currentUser:',
-                    window.currentUser.codigoVendedor
-                );
-
-            } else {
-                console.warn('⚠️ window.currentUser no tiene codigoVendedor');
-
-                // FALLBACK FIRESTORE
+            // Intentar mostrar código en este orden: window.currentUser → localStorage → Firestore
+            let codigoEncontrado = false;
+            
+            // 1. Intenta desde window.currentUser
+            if (window.currentUser?.codigoVendedor && window.currentUser.codigoVendedor.trim() !== '') {
+                document.getElementById('profileCode').textContent = window.currentUser.codigoVendedor;
+                console.log('✅ [Profile] Código desde window.currentUser:', window.currentUser.codigoVendedor);
+                codigoEncontrado = true;
+            }
+            
+            // 2. Si no, intenta desde localStorage
+            if (!codigoEncontrado) {
+                const codigoLocal = localStorage.getItem('codigoVendedorLocal');
+                if (codigoLocal) {
+                    document.getElementById('profileCode').textContent = codigoLocal;
+                    console.log('✅ [Profile] Código desde localStorage:', codigoLocal);
+                    codigoEncontrado = true;
+                }
+            }
+            
+            // 3. Si aún no tiene código, carga desde Firestore
+            if (!codigoEncontrado) {
+                document.getElementById('profileCode').textContent = 'Cargando...';
                 try {
-                    const doc = await firebase
-                        .firestore()
-                        .collection('usuarios')
-                        .doc(user.uid)
-                        .get();
-
+                    const doc = await firebase.firestore().collection('usuarios').doc(user.uid).get();
+                    
                     if (doc.exists) {
                         const userData = doc.data();
-
                         console.log('📋 [Profile] Datos desde Firestore:', userData);
-
-                        document.getElementById('profileName').textContent =
-                            userData.nombre || user.email.split('@')[0];
-
-                        document.getElementById('profileCode').textContent =
-                            userData.codigoVendedor || localStorage.getItem('codigoVendedorLocal') || 'Código no disponible';
-
-                        // reconstruir memoria global
-                        console.log('ANTES DE ASIGNAR currentUser [Profile Modal]:', JSON.parse(JSON.stringify(window.currentUser)));
                         
+                        if (userData.codigoVendedor) {
+                            document.getElementById('profileCode').textContent = userData.codigoVendedor;
+                            console.log('✅ [Profile] Código desde Firestore:', userData.codigoVendedor);
+                        } else {
+                            document.getElementById('profileCode').textContent = 'Código no disponible';
+                        }
+                        
+                        // Actualizar window.currentUser
                         window.currentUser = {
                             uid: user.uid,
                             email: user.email,
                             ...userData
                         };
-                        
-                        console.log('DESPUÉS DE ASIGNAR currentUser [Profile Modal]:', JSON.parse(JSON.stringify(window.currentUser)));
-                        console.log('codigoVendedor final [Profile Modal]:', window.currentUser?.codigoVendedor);
-
                     } else {
-                        document.getElementById('profileName').textContent =
-                            user.email.split('@')[0];
-
-                        document.getElementById('profileCode').textContent =
-                            localStorage.getItem('codigoVendedorLocal') || 'Código no disponible';
+                        document.getElementById('profileCode').textContent = 'Código no disponible';
                     }
-
                 } catch (error) {
-                    console.error('❌ Error cargando perfil:', error);
-
-                    document.getElementById('profileName').textContent =
-                        user.email.split('@')[0];
-
-                    document.getElementById('profileCode').textContent =
-                        localStorage.getItem('codigoVendedorLocal') || 'Código no disponible';
+                    console.error('❌ Error cargando desde Firestore:', error);
+                    document.getElementById('profileCode').textContent = 'Código no disponible';
                 }
             }
 
@@ -5244,6 +5235,32 @@
             actualizarCarrusel();
         }
 
+        // Auto-deslizar carrusel cada 5 segundos
+        let carruselInterval = null;
+        function iniciarAutoDesliz() {
+            if (carruselInterval) clearInterval(carruselInterval);
+            carruselInterval = setInterval(() => {
+                if (productosCarrusel.length > 1) {
+                    carruselSiguiente();
+                }
+            }, 5000);
+        }
+        function detenerAutoDesliz() {
+            if (carruselInterval) clearInterval(carruselInterval);
+        }
+
+        // Agregar listeners para pausar en hover
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                const container = document.getElementById('carrusel-container');
+                if (container) {
+                    container.addEventListener('mouseenter', detenerAutoDesliz);
+                    container.addEventListener('mouseleave', iniciarAutoDesliz);
+                    iniciarAutoDesliz();
+                }
+            }, 100);
+        });
+
         // Verificar si ya está logueado y mostrar sección de nichos
         function actualizarVistaNichos() {
             const nichosSection = document.getElementById('nichos-section');
@@ -5380,9 +5397,9 @@
         // Manejar click del botón "Quiero mi tienda" / "Recibir ideas"
         function handleRevendClick() {
             if (window.currentUser) {
-                // Usuario logueado: marcar email como confirmado y abrir formulario
+                // Usuario logueado: marcar email como confirmado y abrir formulario Brevo
                 localStorage.setItem('emailConfirmado', 'true');
-                window.open('https://confirmaciondecorreo.tuweb.workers.dev/', '_blank');
+                window.open('https://8cc1455f.sibforms.com/serve/MUIFAOe2caIUk_JszJEAGAXuWMAooq9jBLGOvdN8R2ecTP9XnIzhvmcJIr6sHXcB-ap4DPs38CfVHsbJyu1Nc6djziTbM7FfS-bGHzYXXhYj1V_wcohxKLoFy4sbfPH_xNmDgwVR4xVaaf4dyK_QlVjLzdj4E012J39XFQGdXYOvmNEzae4U9jt0_pRuCZHcElDfRt6XW7T4QwrXbA==', '_blank');
             } else {
                 // Usuario no logueado: ir a registro
                 alert('Redirigiendo a formulario de registro... próximamente');
